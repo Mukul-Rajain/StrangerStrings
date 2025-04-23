@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Page-Enter" content="revealTrans(Duration=1.0,Transition=23)" />
+
+  <title>Stranger Strings Login</title>
+  <link href="src/output.css" rel="stylesheet" />
+  <style>
+    .glow-box {
+  transition: box-shadow 0.4s ease-in-out;
+}
+
+.glow-box:hover {
+  box-shadow:
+    0 0 15px rgba(255, 0, 0, 0.6),
+    0 0 25px rgba(255, 0, 0, 0.6),
+    0 0 35px rgba(255, 0, 0, 0.6),
+    0 0 45px rgba(255, 0, 0, 0.6);
+}
+
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow:
+      0 0 10px rgba(255, 0, 0, 0.3),
+      0 0 20px rgba(255, 0, 0, 0.3),
+      0 0 30px rgba(255, 0, 0, 0.3),
+      0 0 40px rgba(255, 0, 0, 0.3);
+  }
+  100% {
+    box-shadow:
+      0 0 15px rgba(255, 0, 0, 0.7),
+      0 0 25px rgba(255, 0, 0, 0.7),
+      0 0 35px rgba(255, 0, 0, 0.7),
+      0 0 45px rgba(255, 0, 0, 0.7);
+  }
+}
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .fade-in {
+      animation: fadeIn 1.8s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-red-950 via-black to-black h-screen flex items-center justify-center text-white font-[Cinzel]">
+
+  <div class="w-full max-w-md bg-black bg-opacity-70 rounded-2xl shadow-xl border border-red-700 p-8 fade-in glow-box">
+
+    <!-- Logo -->
+    <div class="flex justify-center mb-8">
+      <img src="imagefolder/Teacher-Login-4-17-2025.png" alt="Stranger Strings Logo" class="w-3/4 drop-shadow-lg" />
+    </div>
+
+    <!-- Login Form -->
+    <form action="teacher.html" method="GET" class="space-y-6">
+      <input 
+        type="text" 
+        name="username" 
+        placeholder="Username" 
+        required 
+        class="w-full px-4 py-3 rounded-lg bg-black bg-opacity-40 text-white border border-red-600 placeholder-red-300 focus:outline-none focus:ring-2 focus:ring-red-700"
+      />
+      <input 
+        type="password" 
+        name="password" 
+        placeholder="Password" 
+        required 
+        class="w-full px-4 py-3 rounded-lg bg-black bg-opacity-40 text-white border border-red-600 placeholder-red-300 focus:outline-none focus:ring-2 focus:ring-red-700"
+      />
+      <button 
+        type="submit" 
+        class="w-full py-3 bg-red-700 hover:bg-red-600 rounded-lg font-bold transition duration-300"
+      >
+        Login
+      </button>
+    </form>
+
+    <!-- Extra Link -->
+    <div class="text-center mt-4">
+      <a href="#" class="text-sm text-red-300 hover:text-white transition">Forgot Password?</a>
+    </div>
+
+  </div>
+</body>
+</html>

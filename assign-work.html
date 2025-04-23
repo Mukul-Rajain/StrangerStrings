@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Assign Work | Stranger Strings</title>
+  <link href="src/output.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(135deg, #0d0d0d 0%, #440000 30%, #001f3f 60%, #330000 90%),
+        url('imagefolder/stranger-things-bg.jpg') no-repeat center center fixed;
+      background-blend-mode: overlay;
+      background-size: cover;
+    }
+
+    .form-container {
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(0, 255, 255, 0.08);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .form-container:hover {
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.2), 0 0 15px rgba(255, 0, 0, 0.1);
+    }
+
+    input, select, textarea {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #00ffff;
+      box-shadow: 0 0 5px #00ffff;
+    }
+  </style>
+</head>
+<body class="text-white">
+  <header class="text-center p-6">
+    <h1 class="text-3xl font-bold text-cyan-400 mb-2">Assign Work</h1>
+    <p class="text-red-300">Design tasks and assign them to your students with deadlines.</p>
+  </header>
+
+  <main class="form-container">
+    <form action="#" method="POST" class="space-y-6">
+      <div>
+        <label for="subject" class="block text-sm font-medium text-cyan-300">Subject</label>
+        <select id="subject" name="subject" class="w-full p-2 rounded mt-1">
+          <option value="webdev">Web Development</option>
+          <option value="datasci">Data Science</option>
+          <option value="aiml">AI/ML</option>
+          <option value="cybersec">Cybersecurity</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="title" class="block text-sm font-medium text-cyan-300">Assignment Title</label>
+        <input type="text" id="title" name="title" placeholder="e.g., Frontend Form Validation"
+               class="w-full p-2 rounded mt-1" required />
+      </div>
+
+      <div>
+        <label for="description" class="block text-sm font-medium text-cyan-300">Description</label>
+        <textarea id="description" name="description" rows="4" placeholder="Details about the assignment..."
+                  class="w-full p-2 rounded mt-1"></textarea>
+      </div>
+
+      <div>
+        <label for="deadline" class="block text-sm font-medium text-cyan-300">Deadline</label>
+        <input type="datetime-local" id="deadline" name="deadline" class="w-full p-2 rounded mt-1" required />
+      </div>
+
+      <div class="text-right">
+        <button type="submit"
+                class="bg-cyan-600 hover:bg-cyan-700 px-6 py-2 rounded-lg transition shadow-md">
+          Assign Task
+        </button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

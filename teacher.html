@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Dashboard | Stranger Strings</title>
+  <link href="src/output.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(135deg, #0d0d0d 0%, #440000 30%, #001f3f 60%, #330000 90%),
+        url('imagefolder/stranger-things-bg.jpg') no-repeat center center fixed;
+      background-blend-mode: overlay;
+      background-size: cover;
+      margin: 0;
+    }
+
+    .glow-tile {
+      transition: all 0.3s ease-in-out;
+      border: 1px solid rgba(0, 255, 255, 0.08);
+    }
+
+    .glow-tile:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.25), 0 0 15px rgba(255, 0, 0, 0.15);
+      transform: scale(1.025);
+      border-color: rgba(255, 0, 0, 0.3);
+    }
+
+    .rip-animation {
+      animation: ripDown 0.8s ease-in-out forwards;
+    }
+
+    @keyframes ripDown {
+      0% {
+        opacity: 0;
+        transform: scaleY(0) rotateX(90deg);
+        transform-origin: top;
+      }
+      100% {
+        opacity: 1;
+        transform: scaleY(1) rotateX(0);
+        transform-origin: top;
+      }
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+      z-index: 50;
+    }
+
+    .sidebar.active {
+      transform: translateX(0);
+    }
+
+    .sidebar-toggle {
+      position: fixed;
+      top: 1rem;
+      left: 0;
+      background-color: #1e293b;
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      z-index: 60;
+      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.active + .sidebar-toggle {
+      transform: translateX(250px);
+    }
+  </style>
+</head>
+
+<body class="text-white bg-black bg-opacity-80">
+  <div class="sidebar" id="sidebar">
+    <h2 class="text-red-400 mb-4 text-xl font-bold">Subjects</h2>
+    <ul class="space-y-2">
+      <li><button class="bg-gray-700 hover:bg-gray-600 w-full py-2 rounded">Web Dev</button></li>
+      <li><button class="bg-gray-700 hover:bg-gray-600 w-full py-2 rounded">Data Science</button></li>
+      <li><button class="bg-gray-700 hover:bg-gray-600 w-full py-2 rounded">AI/ML</button></li>
+      <li><button class="bg-gray-700 hover:bg-gray-600 w-full py-2 rounded">Cybersecurity</button></li>
+    </ul>
+  </div>
+
+  <button class="sidebar-toggle" onclick="toggleSidebar()">
+    <span id="arrow">➡️</span>
+  </button>
+
+  <div id="mainContent" class="transition-all ml-0 md:ml-0 p-6">
+    <header class="text-center mb-10">
+      <img src="imagefolder/Teacher-s-dashboard-4-18-2025.png" alt="Hawkins Lab Header"
+           class="w-full max-w-xl mx-auto mt-4 drop-shadow-lg animate-pulse">
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+      <a href="assign-work.html" class="glow-tile bg-gray-900 bg-opacity-60 p-6 rounded-2xl block text-center hover:cursor-pointer">Assign Work</a>
+      <a href="extension-requests.html" class="glow-tile bg-gray-900 bg-opacity-60 p-6 rounded-2xl block text-center hover:cursor-pointer">Extension Requests</a>
+      <a href="student-feedback.html" class="glow-tile bg-gray-900 bg-opacity-60 p-6 rounded-2xl block text-center hover:cursor-pointer">Student Feedback</a>
+      <a href="view-progress.html" class="glow-tile bg-gray-900 bg-opacity-60 p-6 rounded-2xl block text-center hover:cursor-pointer">View Progress</a>
+      <a href="reward-points.html" class="glow-tile bg-gray-900 bg-opacity-60 p-6 rounded-2xl block text-center hover:cursor-pointer">Reward Points</a>
+      <a href="submission-overview.html" class="glow-tile bg-gray-900 bg-opacity-60 p-6 rounded-2xl block text-center hover:cursor-pointer">Submission Overview</a>
+    </section>
+
+    <section id="calendarSection" class="mt-16 p-6 bg-gray-800 bg-opacity-60 rounded-2xl glow-tile max-w-4xl mx-auto">
+      <h2 class="text-xl font-semibold text-red-300 mb-4">Assignment Schedule (Day View)</h2>
+      <div class="bg-black p-4 rounded-lg text-white mb-4">
+        <p class="text-cyan-200">📅 Today: Thesis Intro Review — 2PM to 4PM</p>
+        <p class="text-gray-300 mt-2">Tomorrow: Feedback Roundtable — 10AM</p>
+      </div>
+      <button onclick="toggleFullCalendar()" class="text-sm bg-cyan-600 hover:bg-cyan-700 transition px-4 py-2 rounded-lg">
+        Show Full Calendar
+      </button>
+      <div id="fullCalendar" class="hidden mt-6">
+        <div class="grid grid-cols-7 gap-2 text-center text-sm text-white">
+          <div class="py-2">Sun</div><div class="py-2">Mon</div><div class="py-2">Tue</div>
+          <div class="py-2">Wed</div><div class="py-2">Thu</div><div class="py-2">Fri</div><div class="py-2">Sat</div>
+        </div>
+        <div class="grid grid-cols-7 gap-2 text-center text-sm text-white mt-2">
+          <div class="py-2 bg-gray-700">14</div>
+          <div class="py-2 bg-gray-800">15</div>
+          <div class="py-2 bg-gray-800">16</div>
+          <div class="py-2 bg-red-900">17</div>
+          <div class="py-2 bg-blue-600">18</div>
+          <div class="py-2 bg-gray-800">19</div>
+          <div class="py-2 bg-gray-800">20</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const arrow = document.getElementById('arrow');
+      sidebar.classList.toggle('active');
+      arrow.innerText = sidebar.classList.contains('active') ? '⬅️' : '➡️';
+    }
+
+    function toggleFullCalendar() {
+      const calendar = document.getElementById('fullCalendar');
+      calendar.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

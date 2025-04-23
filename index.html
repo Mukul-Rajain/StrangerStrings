@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stranger Strings - PG Dissertation Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+  <link href="src/output.css" rel="stylesheet">
+  <style>
+    body, button, p {
+      font-family: 'Russo One', sans-serif;
+    }
+
+    .video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .fade-in {
+      animation: fadeIn 2s ease-out forwards;
+    }
+
+    .fade-out {
+      animation: fadeOut 2s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.05); }
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-950 h-screen flex items-center justify-center text-white">
+  <!-- Background Video -->
+  <video autoplay muted loop class="video-background">
+    <source src="portal-effect.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Stage 1: Group Name -->
+  <div id="stage1" class="absolute inset-0 flex flex-col items-center justify-center fade-in">
+    <img src="imagefolder/STRANGER-Strings-4-17-2025.png" alt="Stranger Strings" class="w-3/4 max-w-md">
+  </div>
+
+  <!-- Stage 2: Project Title Image -->
+  <div id="stage2" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center">
+    <img src="imagefolder/LOGIN-Your-Details-4-17-2025 (1).png" alt="Project Title" class="w-3/4 max-w-md fade-in">
+    <button onclick="window.location.href='role-selection.html'" class="mt-8 px-6 py-3 bg-red-700 hover:bg-red-600 rounded-xl text-white font-semibold transition-all duration-300">
+      Click to continue
+    </button>
+  </div>
+
+  <!-- Footer: Made By -->
+  <!-- <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-sm text-gray-400">
+    Made by: Alafeya Qaiser (12318684)
+  </div> -->
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('stage1').classList.add('fade-out');
+      setTimeout(() => {
+        document.getElementById('stage1').classList.add('hidden');
+        document.getElementById('stage2').classList.remove('hidden');
+      }, 2000);
+    }, 3000);
+  </script>
+</body>
+
+</html>

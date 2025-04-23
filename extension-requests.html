@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Extension Requests | Stranger Strings</title>
+  <link href="src/output.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(135deg, #0d0d0d 0%, #440000 30%, #001f3f 60%, #330000 90%),
+        url('imagefolder/stranger-things-bg.jpg') no-repeat center center fixed;
+      background-blend-mode: overlay;
+      background-size: cover;
+    }
+
+    .extension-box {
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(0, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    .extension-box:hover {
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.15);
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      color: white;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .btn-approve {
+      background-color: #16a34a;
+    }
+
+    .btn-reject {
+      background-color: #dc2626;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="text-white">
+  <header class="text-center p-6">
+    <h1 class="text-3xl font-bold text-red-400 mb-2">Extension Requests</h1>
+    <p class="text-cyan-300">Review and manage extension requests submitted by students.</p>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4">
+    <div class="extension-box">
+      <h2 class="text-xl font-semibold text-cyan-300">John Doe - Web Development</h2>
+      <p class="mt-2 text-gray-300">Requesting 3 extra days for the final project submission due to health issues.</p>
+      <div class="mt-4 flex gap-4">
+        <button class="btn btn-approve">Approve</button>
+        <button class="btn btn-reject">Reject</button>
+      </div>
+    </div>
+
+    <div class="extension-box">
+      <h2 class="text-xl font-semibold text-cyan-300">Jane Smith - AI/ML</h2>
+      <p class="mt-2 text-gray-300">Needs an extension of 2 days due to assignment overload.</p>
+      <div class="mt-4 flex gap-4">
+        <button class="btn btn-approve">Approve</button>
+        <button class="btn btn-reject">Reject</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
