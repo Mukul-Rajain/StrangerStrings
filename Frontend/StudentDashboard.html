@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hawkins Lab Dissertation Portal</title>
+    <style>
+        :root {
+            --dark: #0c0c1e;
+            --red: #e71921;
+            --blue: #42aaf4;
+            --neon: #08f7fe;
+            --light: #f0f0f0;
+            --purple: #6c5ce7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            background-image: 
+                linear-gradient(rgba(12, 12, 30, 0.9), rgba(12, 12, 30, 0.9)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="2" height="2" x="50" y="50" fill="%2308f7fe" opacity="0.3"/></svg>');
+            background-size: 40px 40px;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 2px solid var(--red);
+            box-shadow: 0 0 15px var(--red);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--blue), var(--neon), var(--red));
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--red);
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--neon);
+            text-shadow: 0 0 10px var(--neon);
+            letter-spacing: 2px;
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: var(--blue);
+            font-size: 1.2rem;
+        }
+        
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: right;
+            color: var(--blue);
+        }
+        
+        .user-info h2 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .feature-card {
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--blue);
+            border-color: var(--neon);
+        }
+        
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(8, 247, 254, 0.1) 0%, rgba(8, 247, 254, 0) 50%, rgba(8, 247, 254, 0.1) 100%);
+            pointer-events: none;
+        }
+        
+        .feature-card h3 {
+            color: var(--neon);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 1px solid var(--red);
+            padding-bottom: 5px;
+        }
+        
+        .feature-card p {
+            color: var(--light);
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card .icon {
+            font-size: 2rem;
+            color: var(--blue);
+            margin-bottom: 15px;
+        }
+        
+        /* Page styles */
+        .page {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--red);
+        }
+        
+        .page-header h2 {
+            color: var(--neon);
+            font-size: 1.8rem;
+        }
+        
+        .back-btn {
+            background: none;
+            border: 1px solid var(--blue);
+            color: var(--blue);
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--blue);
+            color: var(--dark);
+        }
+        
+        /* Submit Page */
+        .subject-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+            height: 350px;
+        }
+        
+        .subject-card {
+            width: 80%;
+            padding: 20px;
+            background: rgba(20, 20, 50, 0.9);
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            margin-bottom: -90px;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            z-index: 1;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--blue);
+        }
+        
+        .subject-card.selected {
+            transform: translateY(-130px) scale(1.05);
+            z-index: 10;
+            border-color: var(--neon);
+            margin-bottom: 20px;
+            background: rgba(30, 30, 70, 0.9);
+        }
+        
+        .subject-card h4 {
+            color: var(--neon);
+            margin-bottom: 5px;
+            font-size: 1.3rem;
+        }
+        
+        .subject-card p {
+            color: var(--blue);
+            font-size: 0.9rem;
+        }
+        
+        .submit-form {
+            display: none;
+            margin-top: 50px;
+            background: rgba(20, 20, 50, 0.9);
+            padding: 20px;
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+        }
+        
+        .submit-form.active {
+            display: block;
+        }
+        
+        .submit-form h4 {
+            color: var(--neon);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .submit-form input, .submit-form textarea, .submit-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: rgba(10, 10, 30, 0.8);
+            border: 1px solid var(--blue);
+            color: var(--light);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .submit-form button {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        
+        .submit-form button:hover {
+            background: #c51018;
+            box-shadow: 0 0 10px var(--red);
+        }
+        
+        /* Rewards Page */
+        .points-display {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .points-display .value {
+            font-size: 4rem;
+            color: var(--neon);
+            text-shadow: 0 0 10px var(--neon);
+            margin-bottom: 10px;
+        }
+        
+        .points-display .label {
+            color: var(--blue);
+            font-size: 1.2rem;
+        }
+        
+        .help-requests {
+            margin-top: 30px;
+        }
+        
+        .help-request {
+            background: rgba(20, 20, 50, 0.9);
+            border: 1px solid var(--blue);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .help-request .info {
+            flex: 1;
+        }
+        
+        .help-request h4 {
+            color: var(--neon);
+            margin-bottom: 5px;
+        }
+        
+        .help-request p {
+            color: var(--light);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .help-request .points {
+            color: var(--neon);
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .help-request button {
+            background: var(--blue);
+            color: var(--dark);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .help-request button:hover {
+            background: var(--neon);
+        }
+        
+        /* Progress Page */
+        .progress-update {
+            background: rgba(20, 20, 50, 0.9);
+            border: 1px solid var(--blue);
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-update h3 {
+            color: var(--neon);
+            margin-bottom: 15px;
+        }
+        
+        .progress-update textarea {
+            width: 100%;
+            height: 150px;
+            background: rgba(10, 10, 30, 0.8);
+            border: 1px solid var(--blue);
+            color: var(--light);
+            padding: 10px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .progress-update button {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .feedback {
+            background: rgba(20, 20, 50, 0.9);
+            border: 1px solid var(--blue);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        
+        .feedback h3 {
+            color: var(--neon);
+            margin-bottom: 15px;
+        }
+        
+        .feedback-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(66, 170, 244, 0.3);
+        }
+        
+        .feedback-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .feedback-item p {
+            color: var(--light);
+            margin-bottom: 5px;
+        }
+        
+        .feedback-item .meta {
+            color: var(--blue);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        /* Calendar Page */
+        .calendar-container {
+            margin-top: 30px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-nav h3 {
+            color: var(--neon);
+        }
+        
+        .calendar-nav button {
+            background: none;
+            border: 1px solid var(--blue);
+            color: var(--blue);
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .calendar th {
+            background: rgba(20, 20, 50, 0.9);
+            color: var(--neon);
+            padding: 10px;
+            text-align: center;
+            border: 1px solid var(--blue);
+        }
+        
+        .calendar td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid var(--blue);
+            height: 40px;
+            vertical-align: middle;
+            position: relative;
+        }
+        
+        .calendar .day {
+            color: var(--light);
+        }
+        
+        .calendar .other-month {
+            color: rgba(240, 240, 240, 0.3);
+        }
+        
+        .calendar .today {
+            background: rgba(231, 25, 33, 0.2);
+            border: 1px solid var(--red);
+        }
+        
+        .calendar .today .day {
+            color: var(--neon);
+            font-weight: bold;
+        }
+        
+        .calendar .deadline {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            font-size: 0.7rem;
+            color: var(--red);
+        }
+        
+        .calendar .upcoming {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            font-size: 0.7rem;
+            color: var(--neon);
+        }
+        
+        /* Status Page */
+        .status-items {
+            margin-top: 30px;
+        }
+        
+        .status-item {
+            background: rgba(20, 20, 50, 0.9);
+            border: 1px solid var(--blue);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .status-item h4 {
+            color: var(--neon);
+        }
+        
+        .status {
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .status-approved {
+            background: rgba(0, 184, 148, 0.2);
+            color: #00b894;
+            border: 1px solid #00b894;
+        }
+        
+        .status-pending {
+            background: rgba(253, 203, 110, 0.2);
+            color: #fdcb6e;
+            border: 1px solid #fdcb6e;
+        }
+        
+        .status-rejected {
+            background: rgba(214, 48, 49, 0.2);
+            color: #d63031;
+            border: 1px solid #d63031;
+        }
+        
+        .status-details {
+            display: flex;
+            justify-content: space-between;
+            color: var(--light);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Premium Page */
+        .premium-features {
+            margin-top: 30px;
+        }
+        
+        .premium-feature {
+            background: rgba(20, 20, 50, 0.9);
+            border: 1px solid var(--blue);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .premium-feature.locked::after {
+            content: "🔒";
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+        
+        .premium-feature h4 {
+            color: var(--neon);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .premium-feature p {
+            color: var(--light);
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .premium-feature .cost {
+            color: var(--neon);
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .premium-feature button {
+            background: var(--blue);
+            color: var(--dark);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .premium-feature button.unlock {
+            background: var(--red);
+            color: white;
+        }
+        
+        .premium-feature button.use {
+            background: var(--neon);
+            color: var(--dark);
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .user-info {
+                position: static;
+                text-align: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Dashboard -->
+        <div class="logo" style="text-align: center; margin-top: 20px;">
+            <img src="imagefolder/Student-Dashboard-4-18-2025.png" alt="Hawkins Lab Logo" 
+                 class="logo-img" 
+                 style="width: 180px; filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8)); transition: transform 0.3s ease, filter 0.3s ease;">
+        </div>
+        <!-- <div class="header">
+            <h1>HAWKINS LAB DISSERTATION PORTAL</h1>
+            <p>4TH SEMESTER RESEARCH MANAGEMENT SYSTEM</p>
+            <div class="user-info">
+                <h2>ELEVEN</h2>
+                <p>PSYCHIC STUDIES | ID: 011</p>
+            </div>
+        </div> -->
+        
+        <div class="dashboard" id="mainDashboard">
+            <div class="feature-card" onclick="showPage('submit')">
+                <div class="icon">🧪</div>
+                <h3>Submit Thesis</h3>
+                <p>Upload your dissertation chapters to the lab for review</p>
+                <p class="status">3 pending submissions</p>
+            </div>
+            
+            <div class="feature-card" onclick="showPage('rewards')">
+                <div class="icon">🌟</div>
+                <h3>Reward Points</h3>
+                <p>Earn points by helping others with their research</p>
+                <p class="status">250 points available</p>
+            </div>
+            
+            <div class="feature-card" onclick="showPage('progress')">
+                <div class="icon">📈</div>
+                <h3>Progress Updates</h3>
+                <p>Share weekly updates with Dr. Brenner</p>
+                <p class="status">Last update: 3 days ago</p>
+            </div>
+            
+            <div class="feature-card" onclick="showPage('calendar')">
+                <div class="icon">📅</div>
+                <h3>Deadlines</h3>
+                <p>View upcoming and missed submission dates</p>
+                <p class="status">2 deadlines this week</p>
+            </div>
+            
+            <div class="feature-card" onclick="showPage('status')">
+                <div class="icon">🔍</div>
+                <h3>Submission Status</h3>
+                <p>Track the review status of your submissions</p>
+                <p class="status">1 approval pending</p>
+            </div>
+            
+            <div class="feature-card" onclick="showPage('premium')">
+                <div class="icon">🔓</div>
+                <h3>Premium Features</h3>
+                <p>Unlock special abilities with your reward points</p>
+                <p class="status">3 features locked</p>
+            </div>
+            
+            <div class="feature-card" onclick="showPage('summary')">
+                <div class="icon">📊</div>
+                <h3>Research Summary</h3>
+                <p>View your overall progress and statistics</p>
+                <p class="status">78% complete</p>
+            </div>
+            
+            <div class="feature-card" onclick="showPage('help')">
+                <div class="icon">🆘</div>
+                <h3>Emergency Help</h3>
+                <p>Contact lab assistants for urgent support</p>
+                <p class="status">Available 24/7</p>
+            </div>
+        </div>
+        
+        <!-- Submit Page -->
+        <div class="page" id="submitPage">
+            <div class="page-header">
+                <h2>SUBMIT TO THE LAB</h2>
+                <button class="back-btn" onclick="showDashboard()">BACK TO DASHBOARD</button>
+            </div>
+            
+            <p>Select a subject to submit your research materials:</p>
+            
+            <div class="subject-stack">
+                <div class="subject-card" onclick="selectSubject(this, 'HISTORY')">
+                    <h4>HISTORY</h4>
+                    <p>Dr. Brenner | Due: Nov 30</p>
+                </div>
+                <div class="subject-card" onclick="selectSubject(this, 'CHEMISTRY')">
+                    <h4>CHEMISTRY</h4>
+                    <p>Dr. Owens | Due: Dec 5</p>
+                </div>
+                <div class="subject-card" onclick="selectSubject(this, 'PHYSICS')">
+                    <h4>PHYSICS</h4>
+                    <p>Dr. Clarke | Due: Dec 10</p>
+                </div>
+            </div>
+            
+            <div class="submit-form" id="submitForm">
+                <h4>SUBMIT RESEARCH FOR <span id="selectedSubject">SUBJECT</span></h4>
+                
+                <input type="text" placeholder="Research Title" id="researchTitle">
+                
+                <select id="submissionType">
+                    <option value="">Select submission type</option>
+                    <option value="chapter">Chapter Draft</option>
+                    <option value="proposal">Research Proposal</option>
+                    <option value="analysis">Data Analysis</option>
+                    <option value="final">Final Dissertation</option>
+                </select>
+                
+                <textarea placeholder="Brief description of your submission..." id="researchDescription"></textarea>
+                
+                <input type="file" id="researchFile">
+                
+                <button onclick="submitResearch()">TRANSMIT TO LAB</button>
+            </div>
+        </div>
+        
+        <!-- Rewards Page -->
+        <div class="page" id="rewardsPage">
+            <div class="page-header">
+                <h2>REWARD POINTS</h2>
+                <button class="back-btn" onclick="showDashboard()">BACK TO DASHBOARD</button>
+            </div>
+            
+            <div class="points-display">
+                <div class="value">250</div>
+                <div class="label">POINTS AVAILABLE</div>
+            </div>
+            
+            <p>Earn points by helping Dustin and other friends with their research:</p>
+            
+            <div class="help-requests">
+                <h3>HELP REQUESTS</h3>
+                
+                <div class="help-request">
+                    <div class="info">
+                        <h4>Statistical Analysis Assistance</h4>
+                        <p>From: Dustin Henderson</p>
+                    </div>
+                    <div class="points">+50 pts</div>
+                    <button onclick="completeHelpRequest(this)">HELP</button>
+                </div>
+                
+                <div class="help-request">
+                    <div class="info">
+                        <h4>Literature Review Feedback</h4>
+                        <p>From: Mike Wheeler</p>
+                    </div>
+                    <div class="points">+30 pts</div>
+                    <button onclick="completeHelpRequest(this)">HELP</button>
+                </div>
+                
+                <div class="help-request">
+                    <div class="info">
+                        <h4>Lab Experiment Setup</h4>
+                        <p>From: Lucas Sinclair</p>
+                    </div>
+                    <div class="points">+75 pts</div>
+                    <button onclick="completeHelpRequest(this)">HELP</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Page -->
+        <div class="page" id="progressPage">
+            <div class="page-header">
+                <h2>PROGRESS UPDATES</h2>
+                <button class="back-btn" onclick="showDashboard()">BACK TO DASHBOARD</button>
+            </div>
+            
+            <div class="progress-update">
+                <h3>WEEKLY RESEARCH UPDATE</h3>
+                <textarea placeholder="What progress have you made this week? What challenges are you facing? What are your plans for next week?"></textarea>
+                <button onclick="submitProgress()">SEND TO DR. BRENNER</button>
+            </div>
+            
+            <div class="feedback">
+                <h3>PREVIOUS FEEDBACK</h3>
+                
+                <div class="feedback-item">
+                    <p>"Your analysis of the sensory deprivation results is promising. Focus more on the control group comparisons next week."</p>
+                    <p class="meta">- Dr. Brenner, Nov 15</p>
+                </div>
+                
+                <div class="feedback-item">
+                    <p>"The methodology section needs more detail about your EEG setup. Include specifications and calibration procedures."</p>
+                    <p class="meta">- Dr. Owens, Nov 8</p>
+                </div>
+                
+                <div class="feedback-item">
+                    <p>"Good progress on the literature review. Add more sources about Russian experiments in this field."</p>
+                    <p class="meta">- Dr. Clarke, Nov 1</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar Page -->
+        <div class="page" id="calendarPage">
+            <div class="page-header">
+                <h2>RESEARCH CALENDAR</h2>
+                <button class="back-btn" onclick="showDashboard()">BACK TO DASHBOARD</button>
+            </div>
+            
+            <div class="calendar-container">
+                <div class="calendar-nav">
+                    <h3>NOVEMBER 1985</h3>
+                    <div>
+                        <button onclick="changeMonth(-1)">PREV</button>
+                        <button onclick="changeMonth(1)" style="margin-left: 10px;">NEXT</button>
+                    </div>
+                </div>
+                
+                <table class="calendar">
+                    <thead>
+                        <tr>
+                            <th>S</th>
+                            <th>M</th>
+                            <th>T</th>
+                            <th>W</th>
+                            <th>T</th>
+                            <th>F</th>
+                            <th>S</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="other-month">27</td>
+                            <td class="other-month">28</td>
+                            <td class="other-month">29</td>
+                            <td class="other-month">30</td>
+                            <td class="other-month">31</td>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td class="today">
+                                <div class="day">7</div>
+                                <div class="upcoming">Progress Due</div>
+                            </td>
+                            <td>8</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td class="missed">
+                                <div class="day">22</div>
+                                <div class="deadline">Missed: Chem Lab</div>
+                            </td>
+                            <td>23</td>
+                        </tr>
+                        <tr>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td class="upcoming">
+                                <div class="day">30</div>
+                                <div class="upcoming">History Due</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Status Page -->
+        <div class="page" id="statusPage">
+            <div class="page-header">
+                <h2>SUBMISSION STATUS</h2>
+                <button class="back-btn" onclick="showDashboard()">BACK TO DASHBOARD</button>
+            </div>
+            
+            <div class="status-items">
+                <div class="status-item">
+                    <div class="status-header">
+                        <h4>Chapter 3: Results</h4>
+                        <div class="status status-approved">APPROVED</div>
+                    </div>
+                    <div class="status-details">
+                        <span>Submitted: Nov 10</span>
+                        <span>Reviewed: Nov 12</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-header">
+                        <h4>Chapter 4: Analysis</h4>
+                        <div class="status status-pending">UNDER REVIEW</div>
+                    </div>
+                    <div class="status-details">
+                        <span>Submitted: Nov 17</span>
+                        <span>Estimated: Nov 24</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-header">
+                        <h4>Chemistry Lab Report</h4>
+                        <div class="status status-rejected">REVISIONS NEEDED</div>
+                    </div>
+                    <div class="status-details">
+                        <span>Submitted: Nov 15</span>
+                        <span>Reviewed: Nov 20</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-header">
+                        <h4>Proposal Draft</h4>
+                        <div class="status status-approved">APPROVED</div>
+                    </div>
+                    <div class="status-details">
+                        <span>Submitted: Nov 5</span>
+                        <span>Reviewed: Nov 8</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Premium Page -->
+        <div class="page" id="premiumPage">
+            <div class="page-header">
+                <h2>PREMIUM FEATURES</h2>
+                <button class="back-btn" onclick="showDashboard()">BACK TO DASHBOARD</button>
+            </div>
+            
+            <p>Unlock these special features with your reward points:</p>
+            
+            <div class="premium-features">
+                <div class="premium-feature locked">
+                    <h4>AI ASSISTANT</h4>
+                    <p>Get instant feedback on your drafts from our experimental AI system</p>
+                    <div class="cost">500 POINTS</div>
+                    <button class="unlock" onclick="unlockFeature(this, 500)">UNLOCK</button>
+                </div>
+                
+                <div class="premium-feature locked">
+                    <h4>DEADLINE EXTENSION</h4>
+                    <p>Add 3 extra days to any submission deadline (once per month)</p>
+                    <div class="cost">750 POINTS</div>
+                    <button class="unlock" onclick="unlockFeature(this, 750)">UNLOCK</button>
+                </div>
+                
+                <div class="premium-feature locked">
+                    <h4>PRIORITY REVIEW</h4>
+                    <p>Jump to the front of the review queue for your next submission</p>
+                    <div class="cost">1000 POINTS</div>
+                    <button class="unlock" onclick="unlockFeature(this, 1000)">UNLOCK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Current points
+        let points = 250;
+        
+        // Show specific page and hide dashboard
+        function showPage(pageId) {
+            document.getElementById('mainDashboard').style.display = 'none';
+            document.getElementById(pageId + 'Page').classList.add('active');
+        }
+        
+        // Show dashboard and hide all pages
+        function showDashboard() {
+            document.getElementById('mainDashboard').style.display = 'grid';
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+        }
+        
+        // Select subject from card stack
+        function selectSubject(card, subjectName) {
+            // Reset all cards
+            document.querySelectorAll('.subject-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            // Select clicked card
+            card.classList.add('selected');
+            
+            // Show submit form
+            document.getElementById('submitForm').classList.add('active');
+            document.getElementById('selectedSubject').textContent = subjectName;
+        }
+        
+        // Submit research
+        function submitResearch() {
+            const title = document.getElementById('researchTitle').value;
+            const type = document.getElementById('submissionType').value;
+            const description = document.getElementById('researchDescription').value;
+            const file = document.getElementById('researchFile').files[0];
+            
+            if (!title || !type || !description || !file) {
+                alert('Please fill all fields and select a file');
+                return;
+            }
+            
+            alert(`Research "${title}" transmitted successfully for ${document.getElementById('selectedSubject').textContent}`);
+            
+            // Reset form
+            document.getElementById('researchTitle').value = '';
+            document.getElementById('submissionType').value = '';
+            document.getElementById('researchDescription').value = '';
+            document.getElementById('researchFile').value = '';
+        }
+        
+        // Complete help request
+        function completeHelpRequest(button) {
+            const pointsEarned = parseInt(button.parentElement.querySelector('.points').textContent.match(/\d+/)[0]);
+            points += pointsEarned;
+            
+            // Update points display
+            document.querySelector('.points-display .value').textContent = points;
+            
+            // Remove the help request
+            button.parentElement.remove();
+            
+            alert(`+${pointsEarned} points earned! Total: ${points}`);
+        }
+        
+        // Submit progress
+        function submitProgress() {
+            alert('Weekly progress update sent to Dr. Brenner!');
+        }
+        
+        // Change calendar month
+        function changeMonth(direction) {
+            // In a real app, this would change the calendar view
+            alert(`Calendar month would change ${direction > 0 ? 'forward' : 'backward'}`);
+        }
+        
+        // Unlock premium feature
+        function unlockFeature(button, cost) {
+            if (points < cost) {
+                alert(`You need ${cost} points to unlock this feature. You have ${points} points.`);
+                return;
+            }
+            
+            if (confirm(`Unlock this feature for ${cost} points?`)) {
+                points -= cost;
+                
+                // Update points display
+                document.querySelector('.points-display .value').textContent = points;
+                
+                // Unlock the feature
+                const featureCard = button.parentElement;
+                featureCard.classList.remove('locked');
+                featureCard.querySelector('button').textContent = 'USE';
+                featureCard.querySelector('button').classList.remove('unlock');
+                featureCard.querySelector('button').classList.add('use');
+                featureCard.querySelector('button').onclick = function() {
+                    usePremiumFeature(featureCard.querySelector('h4').textContent);
+                };
+                
+                alert('Feature unlocked successfully!');
+            }
+        }
+        
+        // Use premium feature
+        function usePremiumFeature(featureName) {
+            switch(featureName) {
+                case 'AI ASSISTANT':
+                    alert('AI Assistant activated! Analyzing your latest submission...');
+                    break;
+                case 'DEADLINE EXTENSION':
+                    alert('3-day extension applied to your next deadline!');
+                    break;
+                case 'PRIORITY REVIEW':
+                    alert('Your next submission will be prioritized in the review queue!');
+                    break;
+                default:
+                    alert('Premium feature activated!');
+            }
+        }
+        
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set today's date in the calendar
+            const today = new Date();
+            document.querySelector('.today .day').textContent = today.getDate();
+            
+            // Add some Stranger Things Easter eggs
+            const container = document.querySelector('.container');
+            container.addEventListener('click', function(e) {
+                if (e.target === container) {
+                    // Secret click on container background
+                    const colors = ['#e71921', '#42aaf4', '#08f7fe', '#6c5ce7'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    container.style.borderColor = randomColor;
+                    container.style.boxShadow = `0 0 15px ${randomColor}`;
+                    setTimeout(() => {
+                        container.style.borderColor = '#e71921';
+                        container.style.boxShadow = '0 0 15px #e71921';
+                    }, 1000);
+                }
+            });
+            
+            // Add blinking lights effect
+            setInterval(() => {
+                const lights = document.querySelectorAll('.feature-card, .subject-card');
+                const randomLight = lights[Math.floor(Math.random() * lights.length)];
+                randomLight.style.boxShadow = '0 0 20px #08f7fe';
+                setTimeout(() => {
+                    randomLight.style.boxShadow = '';
+                }, 300);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

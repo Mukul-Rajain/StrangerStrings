@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Dashboard | Stranger Strings</title>
+  <link href="src/output.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-red: #E50914;
+      --dark-red: #8B0000;
+      --secondary-blue: #002540;
+      --accent-teal: #edd4d4;
+      --accent-teal-dark: #001316;
+      --dark-bg: #0A0A0A;
+      --tile-bg: rgba(16, 16, 24, 0.85);
+      --tile-border: rgba(229, 9, 20, 0.4);
+      --tile-glow: rgba(0, 255, 245, 0.35);
+    }
+
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: linear-gradient(135deg, #0d0d0d 0%, #440000 30%, #001f3f 60%, #330000 90%),
+        url('https://images.pexels.com/photos/1341279/pexels-photo-1341279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') no-repeat center center fixed;
+      background-blend-mode: overlay;
+      background-size: cover;
+      margin: 0;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/png;base64,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');
+      pointer-events: none;
+      opacity: 0.08;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.5px;
+    }
+
+    /* Particle effect for supernatural atmosphere */
+    .particle {
+      position: fixed;
+      width: 3px;
+      height: 3px;
+      background-color: var(--accent-teal);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+      box-shadow: 0 0 6px 2px rgba(0, 255, 245, 0.3);
+      animation: float 15s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(20px);
+        opacity: 0;
+      }
+    }
+
+    /* Tile styles */
+    .dashboard-tile {
+      background: var(--tile-bg);
+      border: 1px solid var(--tile-border);
+      border-radius: 8px;
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .dashboard-tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--dark-red), var(--primary-red));
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.3s ease-out;
+    }
+
+    .dashboard-tile::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 25%;
+      height: 25%;
+      opacity: 0;
+      background: radial-gradient(circle, var(--accent-teal) 0%, transparent 70%);
+      transition: all 0.4s ease;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .dashboard-tile:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(229, 9, 20, 0.15), 0 0 15px var(--tile-glow);
+      border-color: var(--primary-red);
+    }
+
+    .dashboard-tile:hover::before {
+      transform: scaleX(1);
+    }
+
+    .dashboard-tile:hover::after {
+      opacity: 0.2;
+    }
+
+    .dashboard-tile h3 {
+      color: white;
+      margin-top: 0;
+      font-size: 1.5rem;
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .dashboard-tile .icon {
+      margin-bottom: 16px;
+      font-size: 2rem;
+      color: var(--accent-teal);
+      transition: transform 0.3s ease;
+    }
+
+    .dashboard-tile:hover .icon {
+      transform: translateY(-5px);
+      text-shadow: 0 0 10px var(--accent-teal);
+    }
+
+    .dashboard-tile .description {
+      color: #a0aec0;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .dashboard-tile .status {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .status-pending {
+      background-color: #EAB308;
+    }
+
+    .status-in-progress {
+      background-color: #3B82F6;
+    }
+
+    .status-completed {
+      background-color: #10B981;
+    }
+
+    /* Sidebar styling */
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(68, 0, 0, 0.9) 100%);
+      padding: 32px 16px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      transform: translateX(-100%);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 50;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(229, 9, 20, 0.3);
+    }
+
+    .sidebar.active {
+      transform: translateX(0);
+    }
+
+    .sidebar-logo {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .sidebar-toggle {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background-color: var(--dark-bg);
+      color: white;
+      border: 1px solid var(--primary-red);
+      border-radius: 4px;
+      padding: 0.5rem;
+      z-index: 60;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+    }
+
+    .sidebar-toggle:hover {
+      background-color: var(--primary-red);
+    }
+
+    .sidebar.active + .sidebar-toggle {
+      transform: translateX(280px);
+    }
+
+    .sidebar h2 {
+      color: var(--accent-teal);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(229, 9, 20, 0.3);
+    }
+
+    .sidebar-nav {
+      margin-bottom: 32px;
+    }
+
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      color: #e2e8f0;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-link:hover {
+      background-color: rgba(229, 9, 20, 0.2);
+      color: white;
+    }
+
+    .sidebar-link.active {
+      background-color: var(--primary-red);
+      color: white;
+    }
+
+    .sidebar-link .icon {
+      margin-right: 12px;
+      font-size: 1.25rem;
+    }
+
+    .subject-filter {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #e2e8f0;
+      border: 1px solid rgba(229, 9, 20, 0.1);
+      border-radius: 4px;
+      margin-bottom: 8px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .subject-filter:hover {
+      background-color: rgba(229, 9, 20, 0.2);
+      border-color: rgba(229, 9, 20, 0.3);
+    }
+
+    .subject-filter.active {
+      background-color: var(--primary-red);
+      color: white;
+      border-color: var(--primary-red);
+    }
+
+    .subject-filter .subject-icon {
+      display: inline-block;
+      width: 24px;
+      text-align: center;
+      margin-right: 12px;
+    }
+
+    /* Calendar styling */
+    .calendar-section {
+      background: var(--tile-bg);
+      border: 1px solid var(--tile-border);
+      border-radius: 8px;
+      padding: 24px;
+      margin-top: 48px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .calendar-section:hover {
+      box-shadow: 0 0 20px rgba(0, 255, 245, 0.15);
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .calendar-header h2 {
+      color: var(--accent-teal);
+      margin: 0;
+    }
+
+    .calendar-today {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(229, 9, 20, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .calendar-event {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 8px;
+    }
+
+    .calendar-event::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--accent-teal);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-top: 16px;
+    }
+
+    .calendar-day {
+      padding: 8px 4px;
+      text-align: center;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      position: relative;
+    }
+
+    .calendar-day.has-event::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--accent-teal);
+    }
+
+    .calendar-day.today {
+      background-color: var(--primary-red);
+      color: white;
+      font-weight: bold;
+    }
+
+    .calendar-day.event {
+      background-color: rgba(0, 255, 245, 0.1);
+      border: 1px solid var(--accent-teal-dark);
+    }
+
+    /* Header banner styling */
+    .main-header {
+      position: relative;
+      margin-bottom: 48px;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(68, 0, 0, 0.8) 100%);
+      z-index: 1;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .header-title {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      color: white;
+      text-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    }
+
+    .header-subtitle {
+      color: var(--accent-teal);
+      font-size: 1.125rem;
+      max-width: 600px;
+      margin: 0 auto;
+      animation: neonGlow 1.5s ease-in-out infinite alternate;
+      text-shadow: 0 0 5px var(--accent-white),
+                   0 0 10px var(--accent-teal),
+                   0 0 20px var(--accent-teal),
+                   0 0 40px var(--accent-teal-dark);
+    }
+
+    @keyframes neonGlow {
+      from {
+        text-shadow: 0 0 5px var(--accent-teal),
+                     0 0 10px var(--accent-teal),
+                     0 0 20px var(--accent-teal),
+                     0 0 40px var(--accent-teal-dark);
+      }
+      to {
+        text-shadow: 0 0 2px var(--accent-teal),
+                     0 0 5px var(--accent-teal),
+                     0 0 10px var(--accent-teal),
+                     0 0 20px var(--accent-teal-dark);
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .rip-animation {
+      animation: ripDown 0.8s ease-in-out forwards;
+    }
+
+    @keyframes ripDown {
+      0% {
+        opacity: 0;
+        transform: scaleY(0) rotateX(90deg);
+        transform-origin: top;
+      }
+      100% {
+        opacity: 1;
+        transform: scaleY(1) rotateX(0);
+        transform-origin: top;
+      }
+    }
+
+    /* Main content container */
+    #mainContent {
+      width: 100%;
+      max-width: 1200px;
+      text-align: center;
+      padding: 2rem;
+      box-sizing: border-box;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        width: 250px;
+      }
+
+      .sidebar.active + .sidebar-toggle {
+        transform: translateX(250px);
+      }
+
+      .header-title {
+        font-size: 1.75rem;
+      }
+
+      .header-subtitle {
+        font-size: 1rem;
+      }
+      
+      #mainContent {
+        padding: 1rem;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body class="text-white content-center">
+  <!-- Particle effect -->
+  <div id="particles"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <img src="imagefolder/Teacher-s-dashboard-4-18-2025.png" alt="Stranger Strings Logo" class="w-full max-w-[220px]">
+    </div>
+    
+    <div class="sidebar-section">
+      <h2>Dashboard</h2>
+      <a href="#" class="sidebar-link active">
+        <span class="icon">📊</span>
+        <span>Overview</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <span class="icon">📋</span>
+        <span>My Assignments</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <span class="icon">📆</span>
+        <span>Schedule</span>
+      </a>
+    </div>
+    
+    <div class="sidebar-section">
+      <h2>Subject Filters</h2>
+      <button class="subject-filter active" data-filter="All">
+        <span class="subject-icon">🔍</span>All Subjects
+      </button>
+      <button class="subject-filter" data-filter="Web Dev">
+        <span class="subject-icon">🌐</span>Web Development
+      </button>
+      <button class="subject-filter" data-filter="Data Science">
+        <span class="subject-icon">📊</span>Data Science
+      </button>
+      <button class="subject-filter" data-filter="AI/ML">
+        <span class="subject-icon">🤖</span>AI/ML
+      </button>
+      <button class="subject-filter" data-filter="Cybersecurity">
+        <span class="subject-icon">🔒</span>Cybersecurity
+      </button>
+    </div>
+    
+    <div class="sidebar-section">
+      <h2>Quick Actions</h2>
+      <a href="#" class="sidebar-link">
+        <span class="icon">➕</span>
+        <span>New Assignment</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <span class="icon">💬</span>
+        <span>Student Messages</span>
+      </a>
+      <a href="#" class="sidebar-link">
+        <span class="icon">⚙️</span>
+        <span>Settings</span>
+      </a>
+    </div>
+  </div>
+
+  <button class="sidebar-toggle" onclick="toggleSidebar()">
+    <span id="arrow">➡️</span>
+  </button>
+
+  <!-- Main Content -->
+  <div id="mainContent" class="transition-all p-6">
+    <!-- Header Banner -->
+    <header class="main-header fade-in">
+      <div class="header-backdrop"></div>
+      <div class="header-content">
+        <h1 class="header-title">Teacher Dashboard</h1>
+        <p class="header-subtitle">Track assignments, student progress, and manage your teaching schedule in one place</p>
+      </div>
+    </header>
+
+    <!-- Dashboard Tiles -->
+    <section class="dashboard-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 fade-in" style="animation-delay: 0.2s;">
+      <a href="assign-work.html" class="dashboard-tile" data-subject="Web Dev" data-status="Pending">
+        <span class="status status-pending" title="Pending"></span>
+        <div class="icon">📝</div>
+        <h3>Assign Work</h3>
+        <p class="description">Create and distribute assignments to individual students or groups</p>
+      </a>
+      
+      <a href="extension-requests.html" class="dashboard-tile" data-subject="AI/ML" data-status="In Progress">
+        <span class="status status-in-progress" title="In Progress"></span>
+        <div class="icon">⏱️</div>
+        <h3>Extension Requests</h3>
+        <p class="description">Review and respond to deadline extension requests from students</p>
+      </a>
+      
+      <a href="student-feedback.html" class="dashboard-tile" data-subject="Data Science" data-status="Completed">
+        <span class="status status-completed" title="Completed"></span>
+        <div class="icon">💬</div>
+        <h3>Student Feedback</h3>
+        <p class="description">View and provide detailed feedback on student submissions</p>
+      </a>
+      
+      <a href="view-progress.html" class="dashboard-tile" data-subject="Web Dev" data-status="In Progress">
+        <span class="status status-in-progress" title="In Progress"></span>
+        <div class="icon">📊</div>
+        <h3>View Progress</h3>
+        <p class="description">Track individual and class-wide assignment completion and grades</p>
+      </a>
+      
+      <a href="reward-points.html" class="dashboard-tile" data-subject="Cybersecurity" data-status="Completed">
+        <span class="status status-completed" title="Completed"></span>
+        <div class="icon">🏆</div>
+        <h3>Reward Points</h3>
+        <p class="description">Assign achievement points and track student rewards</p>
+      </a>
+      
+      <a href="submission-overview.html" class="dashboard-tile" data-subject="AI/ML" data-status="Pending">
+        <span class="status status-pending" title="Pending"></span>
+        <div class="icon">📥</div>
+        <h3>Submission Overview</h3>
+        <p class="description">Monitor all recent assignments and their submission status</p>
+      </a>
+    </section>
+
+    <!-- Calendar -->
+    <section class="calendar-section fade-in" style="animation-delay: 0.4s;">
+      <div class="calendar-header">
+        <h2>Assignment Schedule</h2>
+        <button id="toggleCalendarBtn" class="text-sm bg-[#2a0a12] hover:bg-[#4a121c] border border-[#e50914] transition px-4 py-2 rounded-lg">
+          Show Full Calendar
+        </button>
+      </div>
+      
+      <div class="calendar-today">
+        <div class="calendar-event">
+          <p class="text-[#00fff5]">Thesis Introduction Review — Today 2PM to 4PM</p>
+        </div>
+        <div class="calendar-event">
+          <p class="text-gray-300">Feedback Roundtable — Tomorrow 10AM</p>
+        </div>
+      </div>
+      
+      <div id="fullCalendar" class="hidden">
+        <div class="calendar-grid text-center text-sm text-white">
+          <div class="calendar-day font-bold">Sun</div>
+          <div class="calendar-day font-bold">Mon</div>
+          <div class="calendar-day font-bold">Tue</div>
+          <div class="calendar-day font-bold">Wed</div>
+          <div class="calendar-day font-bold">Thu</div>
+          <div class="calendar-day font-bold">Fri</div>
+          <div class="calendar-day font-bold">Sat</div>
+          
+          <div class="calendar-day">14</div>
+          <div class="calendar-day">15</div>
+          <div class="calendar-day">16</div>
+          <div class="calendar-day event has-event">17</div>
+          <div class="calendar-day today has-event">18</div>
+          <div class="calendar-day event has-event">19</div>
+          <div class="calendar-day">20</div>
+          <div class="calendar-day">21</div>
+          <div class="calendar-day event has-event">22</div>
+          <div class="calendar-day">23</div>
+          <div class="calendar-day">24</div>
+          <div class="calendar-day">25</div>
+          <div class="calendar-day event has-event">26</div>
+          <div class="calendar-day">27</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- JS Script -->
+  <script>
+    // Create particle effect
+    function createParticles() {
+      const particleContainer = document.getElementById('particles');
+      const numParticles = 20;
+      
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random positioning
+        const xPos = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const size = Math.random() * 2 + 1;
+        const duration = Math.random() * 10 + 10;
+        
+        particle.style.left = `${xPos}%`;
+        particle.style.bottom = '-20px';
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particleContainer.appendChild(particle);
+      }
+    }
+    
+    // Toggle sidebar
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const arrow = document.getElementById('arrow');
+      sidebar.classList.toggle('active');
+      arrow.innerText = sidebar.classList.contains('active') ? '⬅️' : '➡️';
+    }
+    
+    // Toggle full calendar
+    document.getElementById('toggleCalendarBtn').addEventListener('click', function() {
+      const calendar = document.getElementById('fullCalendar');
+      this.textContent = calendar.classList.contains('hidden') ? 'Hide Calendar' : 'Show Full Calendar';
+      calendar.classList.toggle('hidden');
+      if (!calendar.classList.contains('hidden')) {
+        calendar.classList.add('rip-animation');
+      }
+    });
+    
+    // Subject filtering
+    document.querySelectorAll('.subject-filter').forEach(button => {
+      button.addEventListener('click', () => {
+        // Reset active state
+        document.querySelectorAll('.subject-filter').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // Set active state
+        button.classList.add('active');
+        
+        const selected = button.dataset.filter;
+        document.querySelectorAll('.dashboard-tile').forEach(tile => {
+          if (selected === "All" || tile.dataset.subject === selected) {
+            tile.style.display = 'block';
+            setTimeout(() => {
+              tile.style.opacity = '1';
+              tile.style.transform = 'translateY(0)';
+            }, 10);
+          } else {
+            tile.style.opacity = '0';
+            tile.style.transform = 'translateY(10px)';
+            setTimeout(() => {
+              tile.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      
+      // Trigger animations
+      document.querySelectorAll('.fade-in').forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          el.style.transition = 'all 0.8s ease';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 100 * index);
+      });
+    });
+  </script>
+</body>
+</html>
